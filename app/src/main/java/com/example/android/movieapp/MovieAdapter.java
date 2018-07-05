@@ -58,11 +58,11 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
     }
 
     /*
-        this method is callled if we need and update version of the
+        this method is called if we need and update version of the
         data source
      */
     public void refreshEvents(List<Movie> events) {
-        theList.clear();//clear the data soiurce
+        theList.clear();//clear the data source
         theList.addAll(events);//update it with a new list
         notifyDataSetChanged();//notify the adapter of the update
     }

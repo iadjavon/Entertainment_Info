@@ -15,13 +15,14 @@ public class Movie {
     String backPath;
     double popularity;
     double average_vote;
+    int id;
 
 
     /*
             Set up a movie object
      */
     public Movie(String description, String title, String release, int ratings, int imageresources,
-    String poster, String back, double popularity, double average){
+    String poster, String back, double popularity, double average,int id){
 
         plotSummary = description;
         movieTitlte = title;
@@ -32,11 +33,12 @@ public class Movie {
         backPath = back;
         this.popularity = popularity;
         average_vote = average;
+        this.id = id;
 
     }
 
 
-    //below are the getters a nd setters that we need to diplsay
+    //below are the getters and setters that we need to display
     //info in our grid
     public void setImage(int image){
 
@@ -102,6 +104,10 @@ public class Movie {
     public double getAverage(){
 
         return average_vote;
+    }
+
+    public int getId(){
+        return id;
     }
 
 

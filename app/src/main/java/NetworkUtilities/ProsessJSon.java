@@ -40,6 +40,8 @@ public class ProsessJSon {
 
 
 
+
+
     public  static java.net.URL buildUrl(){
 
         //building the Uri
@@ -57,6 +59,26 @@ public class ProsessJSon {
 
         return url;
     }
+
+    public  static java.net.URL videoUrl(){
+
+        //building the Uri
+        request = Uri.parse(base).buildUpon().path("3/movie").
+                appendQueryParameter(API_PARAMETER, Key).
+                build();
+
+        try {
+
+            url = new URL(request.toString());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+
 
     public static String fetchResult(URL url)throws IOException{
 
@@ -89,8 +111,6 @@ public class ProsessJSon {
         }
 
         return networkResponse;
-
-
 
     }
 
@@ -146,10 +166,8 @@ public class ProsessJSon {
 
                 double average = currentMovie.getDouble("vote_average");
 
-
-                // Create a new {@link Earthquake} object with the magnitude, location, time,
-                // and url from the JSON response.
-                Movie aMovie = new Movie(plot, title, release, ratings, movieId, posterPic,backPic,pop,average);
+                //create a new object with the appropriate parameters
+                Movie aMovie = new Movie(plot, title, release, ratings, movieId, posterPic,backPic,pop,average, movieId);
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 theMovieList.add(aMovie);
@@ -162,11 +180,106 @@ public class ProsessJSon {
 
         }
 
-        // Return the list of earthquakes
+        // Return the list of movies
         return theMovieList;
 
+    }
+
+    /*
+    this method allow the extraction of the
+    trailers keys. Those keys will be use
+    on the you tube api to start the video
+     */
+    public static List<String> extractVideoJson(String  json){
+
+         List<String> videoLinks = new ArrayList<String>();
+
+
+        // Try to parse the JSON response string. If there's a problem with the way the JSON
+        // is formatted, a JSONException exception object will be thrown.
+        // Catch the exception so the app doesn't crash, and print the error message to the logs.
+        try {
+
+            // Create a JSONObject from the JSON response string
+            JSONObject baseJsonResponse = new JSONObject(json);
+
+            // Extract the JSONArray associated with the key called "features",
+            // which represents a list of features (or earthquakes).
+            JSONArray videoArray = baseJsonResponse.getJSONArray("results");
+
+            // traversing the array of video object
+            for (int i = 0; i < videoArray.length(); i++) {
+
+                // Get a single video object
+                JSONObject videoObject = videoArray.getJSONObject(i);
+
+                // get the trailer key within the video object
+                String videoKey = videoObject.getString("key");
+
+                // add the trailer key to the list of keys
+                videoLinks.add(videoKey);
+            }
+
+        } catch (JSONException e) {
+
+            Log.e("ProsessJSon.class", "Problem making the HTTP request.", e);
+
+
+        }
+
+        // Return the list of trailers keys
+        return videoLinks;
 
     }
+
+
+    public static List<String> extractReviewsJson(String  json){
+
+        List<String> reviewLinks = new ArrayList<String>();
+
+
+        // Try to parse the JSON response string. If there's a problem with the way the JSON
+        // is formatted, a JSONException exception object will be thrown.
+        // Catch the exception so the app doesn't crash, and print the error message to the logs.
+        try {
+
+            // Create a JSONObject from the JSON response string
+            JSONObject baseJsonResponse = new JSONObject(json);
+
+            // Extract the JSONArray associated with the key called "features",
+            // which represents a list of features (or earthquakes).
+            JSONArray reviewsArray = baseJsonResponse.getJSONArray("results");
+
+            // traversing the array of video object
+            for (int i = 0; i < reviewsArray.length(); i++) {
+
+                // Get a single video object
+                JSONObject reviewObject = reviewsArray.getJSONObject(i);
+
+                // get the trailer key within the video object
+                String reviewKey = reviewObject.getString("id");
+
+                // add the trailer key to the list of keys
+                reviewLinks.add(reviewKey);
+            }
+
+        } catch (JSONException e) {
+
+            Log.e("ProsessJSon.class", "Problem making the HTTP request.", e);
+
+
+        }
+
+        // Return the list of trailers keys
+        return reviewLinks;
+
+    }
+
+
+
+
+
+
 
 
 

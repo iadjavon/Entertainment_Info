@@ -17,4 +17,10 @@
         android:title="Favorite Movie"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/favorite_movie_list"
+        android:orderInCategory="1"
+        android:title="My Favorite Movie List"
+        app:showAsAction="never"/>
+
 </menu>

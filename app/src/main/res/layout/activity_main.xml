@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -20,7 +21,6 @@
             android:numColumns="2"
             android:verticalSpacing="1dp"
             android:horizontalSpacing="1dp"
-            android:gravity="center"
             android:id="@+id/grid_view" />
 
     </android.support.v4.widget.SwipeRefreshLayout>

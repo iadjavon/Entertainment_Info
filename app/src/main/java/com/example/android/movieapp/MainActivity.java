@@ -31,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
     MovieAdapter gridAdapter;
     SwipeRefreshLayout swipe ;
     static List<Movie> container;
+    static List<String>movieKey;
     GridView grid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -42,10 +44,6 @@ public class MainActivity extends AppCompatActivity {
         param = NetworkUtilities.ProsessJSon.buildUrl();
 
         swipe = (SwipeRefreshLayout) findViewById(R.id.refresh);
-
-
-
-
         // set the grid view reference
         GridView grid = (GridView) findViewById(R.id.grid_view);
 
@@ -67,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
         //network call via background task
         new MovieTask().execute(param);
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
                         if(swipe.isRefreshing()){
 
-                            swipe.setRefreshing(false);
+                            swipe.setRefreshing(true);
 
                         }
 
@@ -118,20 +118,28 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onRefresh() {
 
-                        gridAdapter.refreshEvents(container);
+                       // gridAdapter.refreshEvents(container);
+                        new MovieTask().execute(param);
 
                         if(swipe.isRefreshing()){
 
-                            swipe.setRefreshing(false);
+                            swipe.setRefreshing(true);
 
                         }
 
                     }
                 });
+
                 gridAdapter.refreshEvents(container);
-
-
                 Toast.makeText(this,container.get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.favorite_movie_list:
+
+                Intent favoriteIntent = new Intent(getApplicationContext(),FavoriteMovieActivity.class);
+                startActivity(favoriteIntent);
+
+                Toast.makeText(this,"the next move",Toast.LENGTH_SHORT).show();
                 return true;
 
             default:
